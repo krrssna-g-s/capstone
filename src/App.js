@@ -1,20 +1,17 @@
-import './App.css';
+import "./App.css";
+import { Header } from "./components/Header";
+import Footer from "./components/Footer";
+import AppRouter from "./routes/AppRouter";
 
 function App() {
   return (
-    <>
-    <header>
-      <h1>Welcome to my React App</h1>
-    </header>
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-    </nav>
-      Home page
-    </>
+    <div className="grid">
+      <Header />
+      <div className="page-content">
+        <AppRouter />
+      </div>
+      <Footer />
+    </div>
   );
 }
 

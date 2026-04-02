@@ -1,13 +1,74 @@
+
+
+:root {
+  --primary-color: #495E57;
+  --primary-highlight: #FACE14;
+  --secondary-color: #EE9972;
+  --secondary-highlight: #FBDABB;
+  --background-color: #EDEFEE;
+  --text-color: #333;
+  --serif: 'Markazi Text', serif;
+  --sans-serif: 'Karla', sans-serif;
+  --monospace: 'Source Code Pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
+  --text-color-light: #EDEFEE;
+}
+
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--sans-serif);
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  font-family: var(--sans-serif);
+  overflow-x: hidden;
+}
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+  font-family: var(--sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: var(--monospace);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--serif);
+  line-height: 1.2;
+}
+h1 {
+  font-size: 2.5rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.75rem;
+}
+h4 {
+  font-size: 1.5rem;
+}
+h5 {
+  font-size: 1.25rem;
+}
+h6 {
+  font-size: 1rem;
 }
