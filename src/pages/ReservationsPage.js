@@ -15,7 +15,7 @@ function ReservationsPage() {
 
   const submitForm = (formData) => {
     if (submitAPI(formData)) {
-      navigate('/booking-confirmed');
+      navigate('/booking-confirmed', { state: { booking: formData } });
     }
   };
 
@@ -27,6 +27,7 @@ function ReservationsPage() {
           availableTimes={availableTimes}
           onDateChange={handleDateChange}
           onSubmit={submitForm}
+          onBack={() => navigate(-1)}
         />
       </div>
     </main>

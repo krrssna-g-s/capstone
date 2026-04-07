@@ -8,7 +8,12 @@ const defaultProps = {
   availableTimes: mockTimes,
   onDateChange: jest.fn(),
   onSubmit: jest.fn(),
+  onBack: jest.fn(),
 };
+
+beforeEach(() => {
+  sessionStorage.clear();
+});
 
 // ── Static text ──────────────────────────────────────────────────────────────
 
@@ -20,10 +25,10 @@ test('Renders the BookingForm heading', () => {
 
 test('renders all form labels', () => {
   render(<BookingForm {...defaultProps} />);
-  expect(screen.getByText('Choose date')).toBeInTheDocument();
-  expect(screen.getByText('Choose time')).toBeInTheDocument();
-  expect(screen.getByText('Number of guests')).toBeInTheDocument();
-  expect(screen.getByText('Occasion')).toBeInTheDocument();
+  expect(screen.getByText(/choose date/i)).toBeInTheDocument();
+  expect(screen.getByText(/choose time/i)).toBeInTheDocument();
+  expect(screen.getByText(/number of guests/i)).toBeInTheDocument();
+  expect(screen.getByLabelText('Occasion')).toBeInTheDocument();
 });
 
 test('renders the submit button', () => {
@@ -31,9 +36,30 @@ test('renders the submit button', () => {
   expect(screen.getByRole('button', { name: /on click/i })).toBeInTheDocument();
 });
 
+test('renders the back button', () => {
+  render(<BookingForm {...defaultProps} />);
+  expect(screen.getByRole('button', { name: /go back/i })).toBeInTheDocument();
+});
+
+test('calls onBack when back button is clicked', () => {
+  render(<BookingForm {...defaultProps} />);
+  fireEvent.click(screen.getByRole('button', { name: /go back/i }));
+  expect(defaultProps.onBack).toHaveBeenCalledTimes(1);
+});
+
+test('renders step indicator', () => {
+  render(<BookingForm {...defaultProps} />);
+  expect(screen.getByLabelText('Booking progress')).toBeInTheDocument();
+});
+
+test('renders operating hours', () => {
+  render(<BookingForm {...defaultProps} />);
+  expect(screen.getByText(/monday.+sunday/i)).toBeInTheDocument();
+});
+
 // ── initializeTimes ──────────────────────────────────────────────────────────
 
-test('initializeTimes calls fetchAPI with today\'s date and returns available times', () => {
+test("initializeTimes calls fetchAPI with today's date and returns available times", () => {
   window.fetchAPI = jest.fn(() => mockTimes);
   const result = initializeTimes();
   expect(window.fetchAPI).toHaveBeenCalledWith(expect.any(Date));
@@ -58,7 +84,7 @@ test('date input has required attribute and min set to today', () => {
   expect(dateInput).toHaveAttribute('min');
 });
 
-test('guests input has min="1" and max="10" and required', () => {
+test('guests input has min="1", max="10", and required', () => {
   render(<BookingForm {...defaultProps} />);
   const guestsInput = screen.getByLabelText('Number of guests');
   expect(guestsInput).toHaveAttribute('min', '1');
@@ -66,34 +92,40 @@ test('guests input has min="1" and max="10" and required', () => {
   expect(guestsInput).toHaveAttribute('required');
 });
 
-test('time select has required attribute', () => {
+// ── Time slot buttons ─────────────────────────────────────────────────────────
+
+test('renders a button for each available time slot', () => {
   render(<BookingForm {...defaultProps} />);
-  const timeSelect = screen.getByLabelText('Choose time');
-  expect(timeSelect).toHaveAttribute('required');
+  mockTimes.forEach((time) => {
+    expect(screen.getByRole('button', { name: `Select ${time}` })).toBeInTheDocument();
+  });
+});
+
+test('time slot button shows as selected (aria-pressed=true) when clicked', () => {
+  render(<BookingForm {...defaultProps} />);
+  const btn = screen.getByRole('button', { name: 'Select 19:00' });
+  fireEvent.click(btn);
+  expect(btn).toHaveAttribute('aria-pressed', 'true');
 });
 
 // ── Submit button state ───────────────────────────────────────────────────────
 
 test('submit button is disabled when date field is empty', () => {
   render(<BookingForm {...defaultProps} />);
-  const button = screen.getByRole('button', { name: /on click/i });
-  expect(button).toBeDisabled();
+  expect(screen.getByRole('button', { name: /on click/i })).toBeDisabled();
 });
 
 test('submit button is enabled when all fields are valid', async () => {
   render(<BookingForm {...defaultProps} />);
 
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowStr = tomorrow.toISOString().split('T')[0];
 
   fireEvent.change(screen.getByLabelText('Choose date'), {
     target: { name: 'date', value: tomorrowStr },
   });
-  fireEvent.change(screen.getByLabelText('Choose time'), {
-    target: { name: 'time', value: '17:00' },
-  });
+  fireEvent.click(screen.getByRole('button', { name: 'Select 17:00' }));
   fireEvent.change(screen.getByLabelText('Number of guests'), {
     target: { name: 'guests', value: '2' },
   });
@@ -108,10 +140,9 @@ test('submit button is enabled when all fields are valid', async () => {
 
 // ── Inline validation errors ──────────────────────────────────────────────────
 
-test('shows error message when date is cleared after being touched', async () => {
+test('shows error message when date is blurred without a value', async () => {
   render(<BookingForm {...defaultProps} />);
-  const dateInput = screen.getByLabelText('Choose date');
-  fireEvent.blur(dateInput);
+  fireEvent.blur(screen.getByLabelText('Choose date'));
 
   await waitFor(() => {
     expect(screen.getByRole('alert')).toBeInTheDocument();

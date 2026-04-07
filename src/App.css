@@ -803,21 +803,185 @@ nav ul li a.active::after,
   }
 }
 
-/* Form validation error messages */
+/* ── Step indicator ────────────────────────────────────────────────────────── */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 4px;
+}
+.step--active {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+.step-sep {
+  color: #ccc;
+}
+
+/* ── Operating hours note ──────────────────────────────────────────────────── */
+.operating-hours {
+  font-size: 0.85rem;
+  color: #555;
+  background: #f5f5f5;
+  border-left: 3px solid var(--primary-color);
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+/* ── Form group fieldsets ──────────────────────────────────────────────────── */
+.form-group {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+.form-group legend {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 4px;
+  padding: 0;
+  grid-column: 1 / -1;
+}
+
+/* ── Field highlight states ────────────────────────────────────────────────── */
+.reservation-form input.field-invalid,
+.reservation-form select.field-invalid {
+  border-color: #c0392b;
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.2);
+}
+.reservation-form input.field-valid,
+.reservation-form select.field-valid {
+  border-color: #27ae60;
+  box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.15);
+}
+
+/* ── Form validation messages ──────────────────────────────────────────────── */
 .form-error {
   color: #c0392b;
   font-size: 0.8rem;
-  margin-top: -8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.form-success {
+  color: #27ae60;
+  font-size: 0.8rem;
 }
 
-/* Disabled submit button */
-.reservation-form button:disabled {
+/* ── Help text ─────────────────────────────────────────────────────────────── */
+.field-help {
+  font-size: 0.78rem;
+  color: #777;
+  margin-top: -4px;
+}
+
+/* ── Required legend ───────────────────────────────────────────────────────── */
+.required-legend {
+  font-size: 0.78rem;
+  color: #777;
+}
+.required {
+  color: #c0392b;
+  margin-left: 2px;
+}
+
+/* ── Time slot buttons ─────────────────────────────────────────────────────── */
+.time-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.time-slot {
+  padding: 8px 14px;
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--primary-color);
+  font-family: var(--sans-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.time-slot:hover {
+  background: #e8efed;
+}
+.time-slot--selected {
+  background: var(--primary-color);
+  color: #fff;
+}
+.time-slot--selected::after {
+  content: ' ✓';
+}
+
+/* ── Form actions (back + submit row) ─────────────────────────────────────── */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.btn-back {
+  padding: 12px 20px;
+  border: 2px solid var(--primary-color);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--primary-color);
+  font-family: var(--sans-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-back:hover {
+  background: #e8efed;
+}
+.btn-submit {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--primary-highlight);
+  color: #333;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--sans-serif);
+  transition: background-color 0.2s ease;
+}
+.btn-submit:hover:not(:disabled) {
+  background-color: #f0c000;
+}
+.btn-submit:disabled {
   background-color: #ccc;
   color: #666;
   cursor: not-allowed;
 }
 
-/* Confirmed booking page */
+/* ── Loading spinner ───────────────────────────────────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ── Confirmed booking page ────────────────────────────────────────────────── */
 .confirmation-page {
   display: flex;
   flex-direction: column;
@@ -826,4 +990,51 @@ nav ul li a.active::after,
   text-align: center;
   gap: 20px;
   padding: 60px 20px;
+}
+.confirmation-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.booking-ref {
+  font-size: 0.95rem;
+  color: #555;
+}
+.booking-summary {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px 28px;
+  text-align: left;
+  width: 100%;
+  max-width: 340px;
+}
+.booking-summary__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+.booking-summary__row:last-child {
+  border-bottom: none;
+}
+.booking-summary dt {
+  font-weight: 600;
+  color: #555;
+}
+.booking-summary dd {
+  margin: 0;
+  color: #222;
+}
+.confirmation-note {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
 }
