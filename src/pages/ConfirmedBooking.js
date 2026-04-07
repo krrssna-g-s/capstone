@@ -4,6 +4,7 @@ import { useLocation, Link } from 'react-router-dom';
 function ConfirmedBooking() {
   const { state } = useLocation();
   const booking = state?.booking;
+  const guest = state?.guest;
   const bookingRef = useRef(`LL-${Date.now().toString(36).toUpperCase()}`);
 
   return (
@@ -14,6 +15,23 @@ function ConfirmedBooking() {
         <p className="booking-ref">
           Booking Reference: <strong>{bookingRef.current}</strong>
         </p>
+
+        {guest && (
+          <dl className="booking-summary" aria-label="Guest details">
+            <div className="booking-summary__row">
+              <dt>Name</dt>
+              <dd>{guest.firstName} {guest.lastName}</dd>
+            </div>
+            <div className="booking-summary__row">
+              <dt>Email</dt>
+              <dd>{guest.email}</dd>
+            </div>
+            <div className="booking-summary__row">
+              <dt>Phone</dt>
+              <dd>{guest.phone}</dd>
+            </div>
+          </dl>
+        )}
 
         {booking && (
           <dl className="booking-summary" aria-label="Booking details">

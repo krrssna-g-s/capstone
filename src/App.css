@@ -816,6 +816,10 @@ nav ul li a.active::after,
   color: var(--primary-color);
   font-weight: 700;
 }
+.step--done {
+  color: #27ae60;
+  font-weight: 600;
+}
 .step-sep {
   color: #ccc;
 }

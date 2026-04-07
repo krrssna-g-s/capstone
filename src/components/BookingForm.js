@@ -104,7 +104,9 @@ const BookingForm = ({ availableTimes, onDateChange, onSubmit, onBack }) => {
       <div className="step-indicator" aria-label="Booking progress">
         <span className="step step--active">① Booking Details</span>
         <span className="step-sep" aria-hidden="true">→</span>
-        <span className="step">② Confirmation</span>
+        <span className="step">② Your Details</span>
+        <span className="step-sep" aria-hidden="true">→</span>
+        <span className="step">③ Confirmation</span>
       </div>
 
       {/* Operating hours */}

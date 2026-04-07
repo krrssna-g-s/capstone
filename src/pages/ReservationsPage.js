@@ -1,7 +1,7 @@
 import { useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BookingForm from '../components/BookingForm';
-import { fetchAPI, submitAPI } from '../api';
+import { fetchAPI } from '../api';
 
 export const initializeTimes = () => fetchAPI(new Date());
 
@@ -13,10 +13,8 @@ function ReservationsPage() {
 
   const handleDateChange = (date) => dispatch({ date });
 
-  const submitForm = (formData) => {
-    if (submitAPI(formData)) {
-      navigate('/booking-confirmed', { state: { booking: formData } });
-    }
+  const handleBookingSubmit = (formData) => {
+    navigate('/guest-details', { state: { booking: formData } });
   };
 
   return (
@@ -26,7 +24,7 @@ function ReservationsPage() {
         <BookingForm
           availableTimes={availableTimes}
           onDateChange={handleDateChange}
-          onSubmit={submitForm}
+          onSubmit={handleBookingSubmit}
           onBack={() => navigate(-1)}
         />
       </div>

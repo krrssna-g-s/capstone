@@ -5,7 +5,7 @@ export const Header = () => {
     <div className="header-wrapper">
       <div className="header-inner">
         <header className="header">
-          <img src="/Logo.svg" alt="Little Lemon" />
+          <a href="/"><img src="/Logo.svg" alt="Little Lemon" /></a>
         </header>
         <Navigation />
       </div>
